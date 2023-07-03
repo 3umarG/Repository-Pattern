@@ -9,17 +9,17 @@ namespace ApiWithRepositroy.Controllers
 	[ApiController]
 	public class BooksController : ControllerBase
 	{
-		private readonly IBaseRepository<Book> _booksRepository;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public BooksController(IBaseRepository<Book> booksRepository)
+		public BooksController(IUnitOfWork unitOfWork)
 		{
-			_booksRepository = booksRepository;
+			_unitOfWork = unitOfWork;
 		}
 
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetById(int id)
 		{
-			var book = await _booksRepository.GetByIdAsync(id, new string[] { "Author" });
+			var book = await _unitOfWork.Books.GetByIdAsync(id, new string[] { "Author" });
 
 			if (book == null)
 			{
@@ -33,7 +33,7 @@ namespace ApiWithRepositroy.Controllers
 		[HttpGet("GetByName")]
 		public async Task<IActionResult> GetByName(string name)
 		{
-			var book = await _booksRepository.GetByNameAsync(B => B.Title.Contains(name), new string[] { "Author" });
+			var book = await _unitOfWork.Books.GetByNameAsync(B => B.Title.Contains(name), new string[] { "Author" });
 			if (book == null)
 			{
 				return Ok($"There is no Book with Name : {name}");
@@ -46,7 +46,7 @@ namespace ApiWithRepositroy.Controllers
 		[HttpGet("GetAllWithName")]
 		public async Task<IActionResult> GetAllWithNameAsync(string name)
 		{
-			var books = await _booksRepository.GetAllWithNameAsync(B => B.Title.Contains(name), new string[] { "Author" });
+			var books = await _unitOfWork.Books.GetAllWithNameAsync(B => B.Title.Contains(name), new string[] { "Author" });
 			return Ok(books);
 		}
 	}

@@ -9,17 +9,17 @@ namespace ApiWithRepositroy.Controllers
 	[ApiController]
 	public class AuthorsController : ControllerBase
 	{
-		private readonly IBaseRepository<Author> _authorRepository;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public AuthorsController(IBaseRepository<Author> authorRepository)
+		public AuthorsController(IUnitOfWork unitOfWork)
 		{
-			_authorRepository = authorRepository;
+			_unitOfWork = unitOfWork;
 		}
 
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetByIdAsync(int id)
 		{
-			var author = await _authorRepository.GetByIdAsync(id);
+			var author = await _unitOfWork.Authors.GetByIdAsync(id);
 
 			if(author == null)
 			{
@@ -34,7 +34,7 @@ namespace ApiWithRepositroy.Controllers
 		public async Task<IActionResult> GetAllAsync()
 		{
 			var result
-				= await _authorRepository.GetAllAsync();
+				= await _unitOfWork.Authors.GetAllAsync();
 			return Ok(result);
 		}
 
@@ -42,7 +42,7 @@ namespace ApiWithRepositroy.Controllers
 		[HttpGet("GetByName")]
 		public async Task<IActionResult> GetByNameAsync(string name)
 		{
-			var author = await _authorRepository.GetByNameAsync(a => a.Name.Contains(name));
+			var author = await _unitOfWork.Authors.GetByNameAsync(a => a.Name.Contains(name));
 			if(author == null)
 			{
 				return Ok($"There is No Authors with name : {name}");

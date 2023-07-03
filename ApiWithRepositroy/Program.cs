@@ -17,7 +17,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 	));
 
 // Register the Repo
-builder.Services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+//builder.Services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+builder.Services.AddTransient<IUnitOfWork , UnitOfWork>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
