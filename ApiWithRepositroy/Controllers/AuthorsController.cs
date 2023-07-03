@@ -37,5 +37,18 @@ namespace ApiWithRepositroy.Controllers
 				= await _authorRepository.GetAllAsync();
 			return Ok(result);
 		}
+
+
+		[HttpGet("GetByName")]
+		public async Task<IActionResult> GetByNameAsync(string name)
+		{
+			var author = await _authorRepository.GetByNameAsync(a => a.Name.Contains(name));
+			if(author == null)
+			{
+				return Ok($"There is No Authors with name : {name}");
+			}
+
+			return Ok(author);
+		}
 	}
 }
