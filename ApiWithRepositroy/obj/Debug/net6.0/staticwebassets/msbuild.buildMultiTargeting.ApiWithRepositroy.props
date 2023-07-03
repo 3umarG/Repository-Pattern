@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\ApiWithRepositroy.props" />
+</Project>
