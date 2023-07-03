@@ -25,6 +25,20 @@ namespace Movies.EF.Repository
 			return result;
 		}
 
+		public async Task<IEnumerable<T>?> GetAllWithNameAsync(Expression<Func<T, bool>> predicate, string[]? includes = null)
+		{
+			IQueryable<T> result = _context.Set<T>().Where(predicate);
+			if (includes != null)
+			{
+				foreach (var include in includes)
+				{
+					result = result.Include(include);
+				}
+			}
+
+			return await result.ToListAsync();
+		}
+
 		public async Task<T?> GetByIdAsync(int id)
 		{
 			return await _context.Set<T>().FindAsync(id);
@@ -32,20 +46,20 @@ namespace Movies.EF.Repository
 
 		public async Task<T?> GetByIdAsync(int id, string[] includes)
 		{
-			
+
 			IQueryable<T> query = _context.Set<T>();
 
 
-            foreach (var include in includes)
-            {
+			foreach (var include in includes)
+			{
 				query = query.Include(include);
-            }
-            await query.LoadAsync();
+			}
+			await query.LoadAsync();
 
 			return await _context.FindAsync<T>(id);
 
-			
-		
+
+
 
 
 		}
@@ -59,12 +73,12 @@ namespace Movies.EF.Repository
 		{
 			IQueryable<T> query = _context.Set<T>();
 
-            foreach (var include in includes)
-            {
+			foreach (var include in includes)
+			{
 				query = query.Include(include);
-            }
+			}
 
 			return await query.FirstOrDefaultAsync(predicate);
-        }
+		}
 	}
 }

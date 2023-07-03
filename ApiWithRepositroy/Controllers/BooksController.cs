@@ -41,5 +41,13 @@ namespace ApiWithRepositroy.Controllers
 
 			return Ok(book);
 		}
+
+
+		[HttpGet("GetAllWithName")]
+		public async Task<IActionResult> GetAllWithNameAsync(string name)
+		{
+			var books = await _booksRepository.GetAllWithNameAsync(B => B.Title.Contains(name), new string[] { "Author" });
+			return Ok(books);
+		}
 	}
 }
