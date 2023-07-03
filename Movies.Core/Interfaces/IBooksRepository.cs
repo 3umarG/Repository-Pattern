@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace Movies.Core.Interfaces
 {
-	public interface IUnitOfWork : IDisposable
+	public interface IBooksRepository : IBaseRepository<Book>
 	{
-		public IBaseRepository<Author> Authors { get; }
-		public IBooksRepository Books { get; }
-
-		int Complete();
-
+		Task<IEnumerable<Book>> GetAllBooksWithAuthorIdAsync(int id);
 	}
 }

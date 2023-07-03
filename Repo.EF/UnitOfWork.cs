@@ -13,14 +13,14 @@ namespace Movies.EF
 	{
 		public IBaseRepository<Author> Authors { get; private set; }
 
-		public IBaseRepository<Book> Books { get; private set; }
+		public IBooksRepository Books { get; private set; }
 
 		private readonly ApplicationDbContext _context;
 
 		public UnitOfWork(ApplicationDbContext context)
 		{
 			_context = context;
-			Books = new BaseRepository<Book>(_context);
+			Books = new BooksRepository(_context);
 			Authors = new BaseRepository<Author>(_context);
 		}
 

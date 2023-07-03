@@ -49,5 +49,13 @@ namespace ApiWithRepositroy.Controllers
 			var books = await _unitOfWork.Books.GetAllWithNameAsync(B => B.Title.Contains(name), new string[] { "Author" });
 			return Ok(books);
 		}
+
+
+		[HttpGet("GetAllBooksWithAuthorId/{id}")]
+		public async Task<IActionResult> GetAllBooksWithAuthorIdAsync(int id)
+		{
+			var books = await _unitOfWork.Books.GetAllBooksWithAuthorIdAsync(id);
+			return Ok(books);
+		}
 	}
 }
