@@ -19,7 +19,7 @@ namespace ApiWithRepositroy.Controllers
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetById(int id)
 		{
-			var book = await  _booksRepository.GetByIdAsync(id ,new string[]{ "Author"});
+			var book = await _booksRepository.GetByIdAsync(id, new string[] { "Author" });
 
 			if (book == null)
 			{
@@ -28,6 +28,18 @@ namespace ApiWithRepositroy.Controllers
 
 			return Ok(book);
 
+		}
+
+		[HttpGet("GetByName")]
+		public async Task<IActionResult> GetByName(string name)
+		{
+			var book = await _booksRepository.GetByNameAsync(B => B.Title.Contains(name), new string[] { "Author" });
+			if (book == null)
+			{
+				return Ok($"There is no Book with Name : {name}");
+			}
+
+			return Ok(book);
 		}
 	}
 }

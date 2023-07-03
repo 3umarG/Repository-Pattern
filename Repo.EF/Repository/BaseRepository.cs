@@ -54,5 +54,17 @@ namespace Movies.EF.Repository
 		{
 			return await _context.Set<T>().FirstOrDefaultAsync(predicate);
 		}
+
+		public async Task<T?> GetByNameAsync(Expression<Func<T, bool>> predicate, string[] includes)
+		{
+			IQueryable<T> query = _context.Set<T>();
+
+            foreach (var include in includes)
+            {
+				query = query.Include(include);
+            }
+
+			return await query.FirstOrDefaultAsync(predicate);
+        }
 	}
 }

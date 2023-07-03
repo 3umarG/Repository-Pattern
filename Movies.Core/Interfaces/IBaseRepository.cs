@@ -15,5 +15,6 @@ namespace Movies.Core.Interfaces
 		Task<IEnumerable<T>> GetAllAsync();
 
 		Task<T?> GetByNameAsync(Expression<Func<T, bool>> predicate);
+		Task<T?> GetByNameAsync(Expression<Func<T, bool>> predicate , string[] includes);
 	}
 }
