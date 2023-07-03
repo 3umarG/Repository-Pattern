@@ -1,4 +1,5 @@
-﻿using Movies.Core.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Movies.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,12 @@ namespace Movies.EF.Repository
 		public BaseRepository(ApplicationDbContext context)
 		{
 			_context = context;
+		}
+
+		public async Task<IEnumerable<T>> GetAllAsync()
+		{
+			var result = await _context.Set<T>().ToListAsync();
+			return result;
 		}
 
 		public async Task<T> GetByIdAsync(int id)

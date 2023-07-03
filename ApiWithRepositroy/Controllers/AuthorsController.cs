@@ -28,5 +28,14 @@ namespace ApiWithRepositroy.Controllers
 
 			return Ok(author);
 		}
+
+
+		[HttpGet()]
+		public async Task<IActionResult> GetAllAsync()
+		{
+			var result
+				= await _authorRepository.GetAllAsync();
+			return Ok(result);
+		}
 	}
 }
