@@ -25,9 +25,29 @@ namespace Movies.EF.Repository
 			return result;
 		}
 
-		public async Task<T> GetByIdAsync(int id)
+		public async Task<T?> GetByIdAsync(int id)
 		{
 			return await _context.Set<T>().FindAsync(id);
+		}
+
+		public async Task<T?> GetByIdAsync(int id, string[] includes)
+		{
+			
+			IQueryable<T> query = _context.Set<T>();
+
+
+            foreach (var include in includes)
+            {
+				query = query.Include(include);
+            }
+            await query.LoadAsync();
+
+			return await _context.FindAsync<T>(id);
+
+			
+		
+
+
 		}
 
 		public async Task<T?> GetByNameAsync(Expression<Func<T, bool>> predicate)

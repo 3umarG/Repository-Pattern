@@ -19,7 +19,7 @@ namespace ApiWithRepositroy.Controllers
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetById(int id)
 		{
-			var book = await  _booksRepository.GetByIdAsync(id);
+			var book = await  _booksRepository.GetByIdAsync(id ,new string[]{ "Author"});
 
 			if (book == null)
 			{
